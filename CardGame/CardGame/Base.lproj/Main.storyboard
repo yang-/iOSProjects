@@ -406,11 +406,15 @@
                                     <segment title="First"/>
                                     <segment title="Second"/>
                                 </segments>
+                                <connections>
+                                    <action selector="touchGameModeSegmentedControl:" destination="vXZ-lx-hvc" eventType="valueChanged" id="lzu-fP-2Nr"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="0.25098040699958801" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <connections>
+                        <outlet property="gameModeSegmentedControl" destination="28i-1S-GS4" id="YaL-4k-4XZ"/>
                         <outlet property="scoreLabel" destination="yiB-FZ-7bl" id="5dD-cH-ypk"/>
                         <outlet property="statusLabel" destination="kEv-E2-nac" id="VfD-aO-dY3"/>
                         <outletCollection property="cardButtons" destination="cI4-LU-BKj" id="mcy-k4-crN"/>

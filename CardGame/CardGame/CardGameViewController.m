@@ -14,6 +14,7 @@
 @property (strong, nonatomic) Deck *deck;
 @property (strong, nonatomic) CardMatchingGame *game;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *gameModeSegmentedControl;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @end
@@ -23,7 +24,7 @@
 - (CardMatchingGame *)game
 {
     if (!_game) _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
-                                                          usingDeck:self.deck];
+                                                          usingDeck:self.deck inMode:[self gameMode]];
     return _game;
 }
 
@@ -41,13 +42,18 @@
 - (IBAction)touchRedealButton:(UIButton *)sender {
     self.deck = nil;
     self.game = nil;
+    self.gameModeSegmentedControl.enabled = YES;
     [self updateUI];
+}
+- (IBAction)touchGameModeSegmentedControl:(UISegmentedControl *)sender {
+    self.game.mode = [self gameMode];
 }
 
 - (IBAction)cardButtonClick:(UIButton *)sender
 {
     int chooseButtonIndex = (int)[self.cardButtons indexOfObject:sender];
     [self.game chooseCardAtIndex:chooseButtonIndex];
+    self.gameModeSegmentedControl.enabled = NO;
     [self updateUI];
 }
 
@@ -79,5 +85,9 @@
     return card.isChosen ? card.color : nil;
 }
 
+- (NSInteger)gameMode
+{
+    return self.gameModeSegmentedControl.selectedSegmentIndex + 2;
+}
 
 @end

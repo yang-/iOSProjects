@@ -14,14 +14,29 @@
 {
     int score = 0;
     
-    if ([otherCards count] == 1) {
-        PlayingCard *otherCard = [otherCards firstObject];
+//    if ([otherCards count] == 1) {
+//        PlayingCard *otherCard = [otherCards firstObject];
+//        if (otherCard.rank == self.rank) {
+//            score = 4;
+//        } else if ([otherCard.suit isEqualToString:self.suit]) {
+//            score = 1;
+//        }
+//    }
+    PlayingCard *otherCard = [otherCards lastObject];
+    if (otherCard) {
         if (otherCard.rank == self.rank) {
-            score = 4;
+            score += 4;
         } else if ([otherCard.suit isEqualToString:self.suit]) {
-            score = 1;
+            score += 1;
         }
     }
+    NSMutableArray *restOfCards = [otherCards mutableCopy];
+    [restOfCards removeLastObject];
+    if ([restOfCards count]) {
+        score += [otherCard match:restOfCards];
+        score += [self match:restOfCards];
+    }
+    
     
     return score;
 }
