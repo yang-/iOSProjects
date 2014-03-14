@@ -20,5 +20,6 @@
 
 @property (nonatomic, readonly)NSInteger score;
 @property (nonatomic)NSInteger mode;
+@property (nonatomic)NSString *status;
 
 @end

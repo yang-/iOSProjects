@@ -63,7 +63,9 @@ static const int COST_TO_CHOOSE = 1;
     if (!card.isMatched) {
         if (card.isChosen) {
             card.chosen = NO;
+            self.status = [NSString stringWithFormat:@"unchoosing %@", card.contents];
         } else {
+            self.status = [NSString stringWithFormat:@"choosing %@", card.contents];
             for (Card *otherCard in self.cards) {
                 if (otherCard.isChosen && !otherCard.isMatched) {
                     [self.otherCards addObject:otherCard];
@@ -83,16 +85,22 @@ static const int COST_TO_CHOOSE = 1;
                         NSLog(@"%@ is matching array of %@ and %@", card.contents, ((Card *)[self.otherCards firstObject]).contents , ((Card *)[self.otherCards lastObject]).contents);
                         NSLog(@"math score: %d", matchScore);
                         if (matchScore) {
+                            self.status = [NSString stringWithFormat:@"Matched %@", card.contents];
                             self.score += matchScore * MATCH_BONUS;
                             for (Card *choosedCard in self.otherCards) {
                                 choosedCard.matched = YES;
+                                self.status = [NSString stringWithFormat:@"%@ %@", self.status, choosedCard.contents];
                             }
                             card.matched = YES;
+                            self.status =[NSString stringWithFormat:@"%@ for %d points!", self.status, matchScore * MATCH_BONUS];
                         } else {
                             self.score -= MISMATCH_PENALTY;
+                            self.status = [NSString stringWithFormat:@"%@", card.contents];
                             for (Card *choosedCard in self.otherCards) {
                                 choosedCard.chosen = NO;
+                                self.status = [NSString stringWithFormat:@"%@ %@", self.status, choosedCard.contents];
                             }
+                            self.status = [NSString stringWithFormat:@"%@ don't match! %d point penalty!", self.status, MISMATCH_PENALTY];
                         }
 //                        self.otherCards = nil;
                         break;
@@ -106,7 +114,6 @@ static const int COST_TO_CHOOSE = 1;
             card.chosen = YES;
         }
     }
-    
 }
 
 @end
